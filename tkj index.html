@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asih Tresno - Toko Lengkap Keluarga Kediri</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body { background: #fff8f3; color: #333; line-height: 1.6; }
+
+  /* NAVBAR */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    padding: 15px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .logo { color: white; font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 45px; }
+  .logo span { color: #fff3b0; }
+  nav ul { display: flex; list-style: none; gap: 25px; }
+  nav ul a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
+  nav ul a:hover { color: #fff3b0; }
+
+  /* STATUS TOKO */
+  .status-toko { display: inline-block; margin-left: 15px; font-size: 0.9rem; }
+  .status-open { color: #00ff88; font-weight: bold; animation: pulse 2s infinite; }
+  .status-closed { color: #ff4444; font-weight: bold; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    color: white; padding: 80px 5%; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero h1 { font-size: 3rem; margin-bottom: 15px; animation: fadeDown 1s; }
+  .hero p { font-size: 1.2rem; margin-bottom: 25px; animation: fadeUp 1s; }
+  .hero button {
+    background: white; color: #ff6b9d; border: none;
+    padding: 12px 30px; font-size: 1rem; font-weight: bold;
+    border-radius: 30px; cursor: pointer; transition: 0.3s;
+  }
+  .hero button:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+  /* STATISTIK */
+  .stats {
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    padding: 50px 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px;
+    text-align: center;
+    color: white;
+  }
+  .stat-number { font-size: 3rem; font-weight: bold; color: #fff3b0; }
+  .stat-label { font-size: 1rem; margin-top: 5px; }
+
+  /* SECTION */
+  .section { padding: 60px 5%; }
+  .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 10px; color: #ff6b9d; }
+  .section-sub { text-align: center; color: #777; margin-bottom: 40px; }
+
+  /* KATEGORI */
+  .kategori-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  .kategori-card {
+    background: white; padding: 30px 20px; border-radius: 15px;
+    text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.3s; cursor: pointer;
+  }
+  .kategori-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(255,107,157,0.3); }
+  .kategori-card .icon { font-size: 3rem; margin-bottom: 10px; }
+  .kategori-card h3 { color: #ff6b9d; }
+
+  /* FILTER BUTTONS */
+  .filter-buttons {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center; margin-bottom: 30px;
+  }
+  .filter-btn {
+    padding: 10px 20px; border: 2px solid #ff6b9d;
+    background: white; color: #ff6b9d; border-radius: 25px;
+    cursor: pointer; font-weight: 500; transition: 0.3s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    color: white; border-color: transparent;
+  }
+
+  /* PRODUK */
+  .produk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+  }
+  .produk-card {
+    background: white; border-radius: 15px; overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s;
+  }
+  .produk-card:hover { transform: translateY(-5px); }
+  .produk-img {
+    height: 180px; background: linear-gradient(135deg, #ffd6e0, #ffe5b4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+  .produk-info { padding: 15px; }
+  .produk-info h4 { color: #333; margin-bottom: 5px; }
+  .produk-info .kategori-tag {
+    display: inline-block; background: #fff3b0; color: #ff8e53;
+    padding: 3px 10px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 8px;
+  }
+  .produk-info .harga { color: #ff6b9d; font-weight: bold; font-size: 1.2rem; }
+  .produk-info button {
+    width: 100%; margin-top: 10px; padding: 8px;
+    background: #ff6b9d; color: white; border: none;
+    border-radius: 8px; cursor: pointer; font-weight: bold;
+  }
+  .produk-info button:hover { background: #ff8e53; }
+
+  /* PROMO */
+  .promo {
+    background: linear-gradient(135deg, #ff8e53, #ff6b9d);
+    color: white; text-align: center; padding: 50px 5%;
+    border-radius: 20px; margin: 40px 5%;
+  }
+  .promo h2 { font-size: 2rem; margin-bottom: 10px; }
+  .promo p { font-size: 1.1rem; }
+
+  /* TESTIMONI */
+  .testimoni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+  .testi-card {
+    background: white; padding: 25px; border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s;
+  }
+  .testi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255,107,157,0.2); }
+  .stars { font-size: 1.2rem; margin-bottom: 10px; }
+  .testi-card p { color: #555; font-style: italic; margin-bottom: 15px; }
+  .testi-user { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 45px; height: 45px;
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 1.2rem;
+  }
+
+  /* METODE PEMBAYARAN */
+  .metode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .metode-card {
+    background: white; padding: 25px; border-radius: 15px;
+    text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  }
+  .metode-card h3 { color: #ff6b9d; margin-bottom: 15px; }
+  .badge-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .badge {
+    background: linear-gradient(135deg, #ffd6e0, #ffe5b4);
+    color: #ff6b9d; padding: 6px 14px; border-radius: 20px;
+    font-size: 0.9rem; font-weight: 500;
+  }
+
+  /* TENTANG */
+  .tentang { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .tentang-img {
+    background: linear-gradient(135deg, #ffd6e0, #ffe5b4);
+    height: 300px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem;
+  }
+  .tentang-text h2 { color: #ff6b9d; margin-bottom: 15px; }
+  .tentang-text p { margin-bottom: 15px; color: #555; }
+  .features { list-style: none; margin-top: 15px; }
+  .features li { padding: 5px 0; }
+  .features li::before { content: "✓ "; color: #ff6b9d; font-weight: bold; }
+
+  /* GALERI */
+  .galeri-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .galeri-item {
+    border-radius: 15px; overflow: hidden;
+    aspect-ratio: 1; cursor: pointer; transition: 0.3s;
+    background: linear-gradient(135deg, #ffd6e0, #ffe5b4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+  .galeri-item:hover { transform: scale(1.05); }
+
+  /* FAQ */
+  .faq-container { max-width: 800px; margin: 0 auto; }
+  .faq-item {
+    background: white; margin-bottom: 10px;
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  }
+  .faq-question {
+    width: 100%; padding: 18px 20px;
+    background: white; border: none; text-align: left;
+    font-size: 1rem; font-weight: 500;
+    cursor: pointer; color: #333;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-question:hover { background: #fff3f6; }
+  .faq-question::after { content: "+"; font-size: 1.5rem; color: #ff6b9d; }
+  .faq-item.active .faq-question::after { content: "−"; }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s; padding: 0 20px;
+  }
+  .faq-answer p { padding: 15px 0; color: #555; }
+  .faq-item.active .faq-answer { max-height: 200px; }
+
+  /* KONTAK */
+  .kontak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .kontak-box {
+    background: white; padding: 30px; border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  }
+  .kontak-box h3 { color: #ff6b9d; margin-bottom: 15px; }
+  .kontak-box .info-item { display: flex; gap: 10px; margin-bottom: 12px; }
+  .kontak-box .info-item .ico { font-size: 1.5rem; }
+  .map-container { border-radius: 15px; overflow: hidden; height: 100%; min-height: 300px; }
+  .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+  /* FOOTER */
+  footer { background: #2d2d2d; color: white; padding: 40px 5% 20px; text-align: center; }
+  footer h3 { color: #ff6b9d; margin-bottom: 10px; }
+  .footer-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px; text-align: left; margin-bottom: 20px;
+  }
+  .footer-grid h4 { color: #ff8e53; margin-bottom: 10px; }
+  .footer-grid a { color: #ccc; text-decoration: none; display: block; padding: 3px 0; }
+  .footer-grid a:hover { color: #ff6b9d; }
+  .copyright { border-top: 1px solid #444; padding-top: 15px; color: #aaa; }
+
+  /* TOMBOL FLOATING */
+  .wa-float {
+    position: fixed; bottom: 25px; right: 25px;
+    background: #25d366; color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: pulse 2s infinite; z-index: 99;
+  }
+  .back-to-top {
+    position: fixed; bottom: 100px; right: 25px;
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+    color: white; border: none; border-radius: 50%;
+    font-size: 1.5rem; cursor: pointer;
+    opacity: 0; visibility: hidden; transition: 0.3s;
+    z-index: 98; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  .back-to-top.show { opacity: 1; visibility: visible; }
+  .back-to-top:hover { transform: translateY(-3px); }
+
+  /* ANIMASI */
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero h1 { font-size: 2rem; }
+    .tentang, .kontak-grid { grid-template-columns: 1fr; }
+    .stat-number { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+    Asih <span>Tresno</span>
+    <div class="status-toko" id="statusToko"></div>
+  </div>
+  <ul>
+    <li><a href="#beranda">Beranda</a></li>
+    <li><a href="#kategori">Kategori</a></li>
+    <li><a href="#produk">Produk</a></li>
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="beranda">
+  <h1>Selamat Datang di Toko Asih Tresno</h1>
+  <p>Toko Boneka, Mainan, Baju, Sandal & Sembako</p>
+  <button onclick="document.getElementById('produk').scrollIntoView({behavior:'smooth'})">Belanja Sekarang</button>
+</section>
+
+<!-- STATISTIK -->
+<section class="stats">
+  <div class="stat-item">
+    <div class="stat-number" data-target="5">0</div>
+    <div class="stat-label">Tahun Berdiri</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" data-target="500">0</div>
+    <div class="stat-label">Pelanggan Puas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" data-target="500">0</div>
+    <div class="stat-label">Produk Tersedia</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" data-target="99">0</div>
+    <div class="stat-label">Rating ⭐</div>
+  </div>
+</section>
+
+<!-- KATEGORI -->
+<section class="section" id="kategori">
+  <h2 class="section-title" data-aos="fade-up">Kategori Produk</h2>
+  <p class="section-sub" data-aos="fade-up">Temukan barang yang anda inginkan dalam  dalam satu tempat</p>
+  <div class="kategori-grid">
+    <div class="kategori-card" data-aos="zoom-in"><div class="icon">🧸</div><h3>Boneka</h3><p>Boneka lembut dan banyak di seka orang</p></div>
+    <div class="kategori-card" data-aos="zoom-in"><div class="icon">🎮</div><h3>Mainan</h3><p>Mainan edukatif anak</p></div>
+    <div class="kategori-card" data-aos="zoom-in"><div class="icon">👕</div><h3>Baju</h3><p>Pakaian dewasa & anak</p></div>
+    <div class="kategori-card" data-aos="zoom-in"><div class="icon">🩴</div><h3>Sandal</h3><p>Sandal nyaman harian</p></div>
+    <div class="kategori-card" data-aos="zoom-in"><div class="icon">🛒</div><h3>Sembako</h3><p>Kebutuhan pokok harian</p></div>
+  </div>
+</section>
+
+<!-- PRODUK DENGAN FILTER -->
+<section class="section" id="produk" style="background:#fff3f6;">
+  <h2 class="section-title" data-aos="fade-up">Produk Kami</h2>
+  <p class="section-sub" data-aos="fade-up">Filter berdasarkan kategori</p>
+  
+  <div class="filter-buttons" data-aos="fade-up">
+    <button class="filter-btn active" onclick="filterProduk('semua', this)">Semua</button>
+    <button class="filter-btn" onclick="filterProduk('boneka', this)">🧸 Boneka</button>
+    <button class="filter-btn" onclick="filterProduk('mainan', this)">🎮 Mainan</button>
+    <button class="filter-btn" onclick="filterProduk('baju', this)"><images class="index html"></images>Baju</button>
+    <button class="filter-btn" onclick="filterProduk('sandal', this)">🩴 Sandal</button>
+    <button class="filter-btn" onclick="filterProduk('sembako', this)">🛒 Sembako</button>
+  </div>
+  
+  <div class="produk-grid" id="produkGrid">
+    <div class="produk-card" data-kategori="boneka" data-aos="fade-up">
+      <div class="produk-img">🧸</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Boneka</span>
+        <h4>Boneka Beruang Teddy</h4>
+        <p class="harga">Rp 20.000</p>
+        <button onclick="pesan('Boneka Beruang Teddy')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="mainan" data-aos="fade-up">
+      <div class="produk-img">🚗</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Mainan</span>
+        <h4>Miniatur Mobil Anak</h4>
+        <p class="harga">Rp 10.000</p>
+        <button onclick="pesan('Miniatur Mobil Anak')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="baju" data-aos="fade-up">
+      <div class="produk-img">👗</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Baju</span>
+        <h4>Gamis Anak Cantik</h4>
+        <p class="harga">Rp 25.000</p>
+        <button onclick="pesan('Gamis Anak Cantik')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="sandal" data-aos="fade-up">
+      <div class="produk-img">🩴</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Sandal</span>
+        <h4>Sandal Jepit Swallow</h4>
+        <p class="harga">Rp 20.000</p>
+        <button onclick="pesan('Sandal Jepit Swallow')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="sembako" data-aos="fade-up">
+      <div class="produk-img">🍚</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Sembako</span>
+        <h4>Beras Premium 5kg</h4>
+        <p class="harga">Rp 25.000</p>
+        <button onclick="pesan('Beras Premium 5kg')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="mainan" data-aos="fade-up">
+      <div class="produk-img">🧩</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Mainan</span>
+        <h4>Puzzle Edukatif Anak</h4>
+        <p class="harga">Rp 25.000</p>
+        <button onclick="pesan('Puzzle Edukatif Anak')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="baju" data-aos="fade-up">
+      <div class="produk-img">👕</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Baju</span>
+        <h4>Kaos Polos Dewasa</h4>
+        <p class="harga">Rp 10.000</p>
+        <button onclick="pesan('Kaos Polos Dewasa')">Pesan via WA</button>
+      </div>
+    </div>
+    <div class="produk-card" data-kategori="sembako" data-aos="fade-up">
+      <div class="produk-img">🛢️</div>
+      <div class="produk-info">
+        <span class="kategori-tag">Sembako</span>
+        <h4>Minyak Goreng 2L</h4>
+        <p class="harga">Rp 15.000</p>
+        <button onclick="pesan('Minyak Goreng 2L')">Pesan via WA</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO -->
+<section class="promo" data-aos="zoom-in">
+  <h2>🎉 PROMO SPESIAL! 🎉</h2>
+  <p>Diskon hingga 5% untuk pembelian boneka & mainan setiap akhir pekan!</p>
+  <p><strong>Berlaku setiap Sabtu & Minggu</strong></p>
+</section>
+
+<!-- TESTIMONI -->
+<section class="section">
+  <h2 class="section-title" data-aos="fade-up">Kata Pelanggan</h2>
+  <p class="section-sub" data-aos="fade-up">Kepuasan pelanggan adalah prioritas kami</p>
+  <div class="testimoni-grid">
+    <div class="testi-card" data-aos="fade-up">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Toko lengkap, harga bersahabat. Boneka buat anak saya bagus banget, lembut dan awet!"</p>
+      <div class="testi-user">
+        <div class="avatar">S</div>
+        <div><strong> novianto </strong><br><small>Kel.kemasan</small></div>
+      </div>
+    </div>
+    <div class="testi-card" data-aos="fade-up">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Pelayanan ramah, sembako selalu fresh. Langganan beli beras di sini sudah 3 tahun!"</p>
+      <div class="testi-user">
+        <div class="avatar">B</div>
+        <div><strong> agus </strong><br><small>Kec. kota kediri</small></div>
+      </div>
+    </div>
+    <div class="testi-card" data-aos="fade-up">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Baju anak-anaknya lucu-lucu dan murah. Anak saya senang banget dapat baju baru!"</p>
+      <div class="testi-user">
+        <div class="avatar">D</div>
+        <div><strong> mujiono </strong><br><small>Kec. kota kediri </small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODE PEMBAYARAN -->
+<section class="section" style="background:#fff3f6;">
+  <h2 class="section-title" data-aos="fade-up">Metode Pembayaran & Pengiriman</h2>
+  <div class="metode-grid">
+    <div class="metode-card" data-aos="fade-right">
+      <h3>💳 Pembayaran</h3>
+      <div class="badge-group">
+        <span class="badge">Tunai</span>
+      </div>
+    </div>
+    <div class="metode-card" data-aos="fade-left">
+      <h3>🚚 Pengiriman</h3>
+      <div class="badge-group">
+        <span class="badge">Ambil di Toko</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENTANG -->
+<section class="section" id="tentang">
+  <h2 class="section-title" data-aos="fade-up">Tentang Kami</h2>
+  <div class="tentang">
+    <div class="tentang-img" data-aos="fade-right">🏪</div>
+    <div class="tentang-text" data-aos="fade-left">
+      <h2>Toko Asih Tresno</h2>
+      <p>Toko Asih Tresno adalah toko keluarga yang menyediakan berbagai kebutuhan harian masyarakat Kediri. Dari mainan anak yang lucu hingga sembako untuk kebutuhan dapur, semua tersedia lengkap dengan harga bersahabat.</p>
+      <p>Kami melayani dengan sepenuh hati, karena bagi kami pelanggan adalah keluarga.</p>
+      <ul class="features">
+        <li>Harga Bersaing & Terjangkau</li>
+        <li>Stok Selalu Lengkap</li>
+        <li>Pelayanan Ramah & Cepat</li>
+        <li>Bisa pesan via wahtsapp atau langsung data ke toko</li>
+        <li>Lokasi Strategis di Pusat Kota Kediri</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section class="section" style="background:#fff3f6;">
+  <h2 class="section-title" data-aos="fade-up">Galeri Toko Kami</h2>
+  <p class="section-sub" data-aos="fade-up">Suasana toko yang nyaman dan lengkap</p>
+  <div class="galeri-grid">
+    <div class="galeri-item" data-aos="zoom-in">🏪</div>
+    <div class="galeri-item" data-aos="zoom-in">🛍️</div>
+    <div class="galeri-item" data-aos="zoom-in">🧸</div>
+    <div class="galeri-item" data-aos="zoom-in">👗</div>
+    <div class="galeri-item" data-aos="zoom-in">🛒</div>
+    <div class="galeri-item" data-aos="zoom-in">😊</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <h2 class="section-title" data-aos="fade-up">Pertanyaan Umum</h2>
+  <div class="faq-container">
+    <div class="faq-item" data-aos="fade-up">
+      <button class="faq-question">🕐 Jam berapa toko buka?</button>
+      <div class="faq-answer"><p>Kami buka setiap hari Senin-Minggu, jam 07.00 - 17.30 WIB.</p></div>
+    </div>
+    <div class="faq-item" data-aos="fade-up">
+      <button class="faq-question">💳 Bayarnya pakai apa?</button>
+      <div class="faq-answer"><p>Tunai!</p></div>
+    </div>
+    <div class="faq-item" data-aos="fade-up">
+      <button class="faq-question">📍 Apakah ada parkir?</button>
+      <div class="faq-answer"><p>Ada! Tersedia parkir motor dan mobil di depan toko.</p></div>
+    </div>
+    <div class="faq-item" data-aos="fade-up">
+      <button class="faq-question">🎁 Ada promo tidak?</button>
+      <div class="faq-answer"><p>Ada! Setiap Sabtu & Minggu diskon hingga 5% untuk boneka & mainan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="section" id="kontak" style="background:#fff3f6;">
+  <h2 class="section-title" data-aos="fade-up">Hubungi Kami</h2>
+  <p class="section-sub" data-aos="fade-up">Kunjungi toko atau hubungi kami via WhatsApp</p>
+  <div class="kontak-grid">
+    <div class="kontak-box" data-aos="fade-right">
+      <h3>📍 Informasi Toko</h3>
+      <div class="info-item"><span class="ico">🏠</span><div><strong>Alamat:</strong><br>Jl. Sriwijaya No. 43B<br>Kelurahan Kemasan, Kecamatan Kota Kediri<br>Kota Kediri, Jawa Timur</div></div>
+      <div class="info-item"><span class="ico">📞</span><div><strong>WhatsApp:</strong><br>0812-3456-7890</div></div>
+      <div class="info-item"><span class="ico">🕐</span><div><strong>Jam Buka:</strong><br>Senin - Minggu: 07.00 - 21.00 WIB</div></div>
+      <div class="info-item"><span class="ico">📧</span><div><strong>Email:</strong><br>asih.tresno.kediri@gmail.com</div></div>
+    </div>
+    <div class="map-container" data-aos="fade-left">
+      <iframe src="https://www.google.com/maps?q=Jl.+Sriwijaya+Kemasan+Kota+Kediri&output=embed" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Asih Tresno</h3>
+      <p style="color:#ccc;">Toko Lengkap Keluarga Kediri. Melayani dengan sepenuh hati sejak lama.</p>
+    </div>
+    <div>
+      <h4>Kategori</h4>
+      <a href="#kategori">Boneka</a>
+      <a href="#kategori">Mainan</a>
+      <a href="#kategori">Baju</a>
+      <a href="#kategori">Sandal</a>
+      <a href="#kategori">Sembako</a>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <a href="#beranda">Beranda</a>
+      <a href="#produk">Produk</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#kontak">Kontak</a>
+    </div>
+    <div>
+      <h4>Kontak</h4>
+      <a href="#">📍 Jl. Sriwijaya 43B, Kediri</a>
+      <a href="#">📞 0812-3456-7890</a>
+      <a href="#">📧 asih.tresno.kediri@gmail.com</a>
+    </div>
+  </div>
+  <div class="copyright">
+    &copy; 2026 Toko Asih Tresno. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- TOMBOL FLOATING -->
+<a href="https://wa.me/6281234567890?text=Halo%20Toko%20Asih%20Tresno,%20saya%20ingin%20bertanya" class="wa-float" target="_blank">💬</a>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  // Init AOS Animation
+  AOS.init({ duration: 1000, once: true });
+
+  // Fungsi Pesan via WA
+  function pesan(namaProduk) {
+    const pesan = "Halo Toko Asih Tresno, saya ingin memesan: " + namaProduk;
+    window.open("https://wa.me/6281234567890?text=" + encodeURIComponent(pesan), "_blank");
+  }
+
+  // Smooth Scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Filter Produk
+  function filterProduk(kategori, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const produk = document.querySelectorAll('.produk-card');
+    produk.forEach(p => {
+      if (kategori === 'semua' || p.dataset.kategori === kategori) {
+        p.style.display = 'block';
+        p.style.animation = 'fadeUp 0.5s';
+      } else {
+        p.style.display = 'none';
+      }
+    });
+  }
+
+  // Back to Top Button
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('backToTop');
+    if (window.scrollY > 300) btn.classList.add('show');
+    else btn.classList.remove('show');
+  });
+
+  // Status Toko Otomatis
+  function cekStatusToko() {
+    const now = new Date();
+    const jam = now.getHours();
+    const status = document.getElementById('statusToko');
+    
+    if (jam >= 7 && jam < 21) {
+      status.innerHTML = '<span class="status-open">● BUKA</span>';
+      status.title = 'Buka sampai 21.00 WIB';
+    } else {
+      status.innerHTML = '<span class="status-closed">● TUTUP</span>';
+      status.title = 'Buka besok jam 07.00 WIB';
+    }
+  }
+  cekStatusToko();
+  setInterval(cekStatusToko, 60000);
+
+  // Counter Animasi
+  const counters = document.querySelectorAll('.stat-number');
+  const animateCounter = (counter) => {
+    const target = +counter.dataset.target;
+    let count = 0;
+    const step = target / 50;
+    const update = () => {
+      count += step;
+      if (count < target) {
+        counter.innerText = Math.ceil(count) + (target === 100 ? '%' : '+');
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = target + (target === 100 ? '%' : '+');
+      }
+    };
+    update();
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+  counters.forEach(c => observer.observe(c));
+
+  // FAQ Toggle
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      q.parentElement.classList.toggle('active');
+    });
+  });
+</script>
+
+</body>
+</html>
